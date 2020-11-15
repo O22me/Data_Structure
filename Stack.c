@@ -4,9 +4,9 @@
 
 typedef int element;
 typedef struct {
-    element* data;
+    element* data; //ptr for dynamic allocation
     int size;
-    int top;
+    int top; //top index
 }Stack;
 
 void InitStack(Stack* s, int stack_size) { //Initialize stack
@@ -16,7 +16,7 @@ void InitStack(Stack* s, int stack_size) { //Initialize stack
     s->top = -1; //top(int) indicate index
 }
 void PrintMenu() { //Menu
-    printf("1. Push\n");
+    printf("\n1. Push\n");
     printf("2. Pop\n");
     printf("3. Print\n");
     printf("4. Quit\n");
@@ -51,11 +51,12 @@ void pop(Stack* s) {
         s->top--;
     }
 }
-void print(Stack* s) {
+void printStack(Stack* s) {
     if (is_empty(s)) {
         printf("Stack is empty.\n");
         return;
     }
+    printf("bottom | ");
     for (int i = 0; i <= s->top; i++) {
         printf("%d | ", *(s->data + i));
     }
@@ -63,25 +64,28 @@ void print(Stack* s) {
 }
 int main(void) {
     Stack* s = (Stack*)malloc(sizeof(Stack));
-    if (s == NULL) return -1;
+    if (s == NULL) return -1; //NULLptr means fail to allocation
+
     int stack_size, input;
     bool quit = false;
     printf("Insert stack size : ");
     scanf_s("%d", &stack_size);
     InitStack(s, stack_size);
-    while (!quit) {
+
+    while (!quit) { //if input == 4 to exit program
         PrintMenu();
         scanf_s("%d", &input);
         switch (input) {
         case 1: push(s); break;
         case 2: pop(s); break;
-        case 3: print(s); break;
+        case 3: printStack(s); break;
         case 4: quit = true; break;
         default: printf("Wrong input.\n");
         }
     }
 
     free(s->data);
-    
+    free(s);
+
     return 0;
 }
