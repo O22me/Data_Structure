@@ -1,4 +1,4 @@
-# Data_structure_sophomore
+# Data_structure
 Data Structure course
 1. Stack
 2. Queue
